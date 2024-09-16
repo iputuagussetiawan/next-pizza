@@ -1,11 +1,14 @@
-import { Button } from "@/components/ui/button";
-import Image from "next/image";
+import { Container, Title, TopBar } from "@/components/shared";
+
 
 export default function Home() {
   return (
     <>
-      <h1>Home</h1>
-      <Button variant={"outline"}>Submit</Button>
+      <Container className="mt-5">
+        <Title text="Yummy Pizza" size="lg" className="font-extrabold"/>
+        <TopBar/>
+        <div style={{ height:'1000px'}}></div>
+      </Container>
     </>
   );
 }
