@@ -1,7 +1,7 @@
 import React from 'react'
 
-export default function ProductDetail() {
+export default function ProductPage({params:{id}}:{params:{id:string}}) {
   return (
-    <h1>Product Detail</h1>
+    <h1>Product {id}</h1>
   )
 }
