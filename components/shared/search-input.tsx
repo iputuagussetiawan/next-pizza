@@ -21,11 +21,15 @@ export const SearchInput:React.FC<Props>=({className})=>{
         setFocused(false);
     })
 
-    useDebounce(()=>{
-        Api.products.search(searchQuery).then(items =>{
-            setProducts(items);
-        })
-    },
+    useDebounce(
+        async()=>{
+            try {
+                const response= await Api.products.search(searchQuery);
+                setProducts(response);
+            } catch (error) {
+                console.log(error)
+            }
+        },
     700,
     [searchQuery]);
 
