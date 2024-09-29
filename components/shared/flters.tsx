@@ -1,6 +1,6 @@
 
 "use client"
-import { useFilterIngredients } from "@/hooks/useFilterIngredients";
+import { useFilterIngredients } from "@/hooks/use-filter-ingredients";
 import { Input } from "../ui/input";
 import { RangeSlider } from "../ui/range-slider";
 import { CheckboxFiltersGroup } from "./checkbox-filters-group";
