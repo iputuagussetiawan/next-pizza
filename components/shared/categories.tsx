@@ -1,39 +1,31 @@
 'use client';
 
-import { cn } from "@/lib/utils";
+import { cn } from '@/lib/utils';
 import { useCategoryStore } from '@/store/category';
+import { Category } from '@prisma/client';
+import React from 'react';
 
 interface Props {
-    className?: string;
+  items: Category[];
+  className?: string;
 }
 
-const cats = [
-    {id:1, name:"Margherita"},
-    {id:2, name:"Pepperoni"},
-    {id:3, name:"BBQ Chicken"},
-    {id:4, name:"Hawaiian"},
-    {id:5, name:"Meat Lover's"},
-    {id:6, name:"Four Cheese"},
-    {id:7, name:"Supreme"},
-];
+export const Categories: React.FC<Props> = ({ items, className }) => {
+  const activeId = useCategoryStore((state) => state.activeId);
 
-const activeIndex = 0;
-
-export const Categories: React.FC<Props> = ({ className }) => {
-    const activeId = useCategoryStore((state) => state.activeId);
-    return (
-        <div className={cn('inline-flex flex-wrap gap-1 bg-gray-50 p-1 rounded-2xl ', className)}>
-            {cats.map(({name,id}, index) => (
-                <a href={`#${name}`}
-                    className={cn(
-                        'flex items-center font-bold h-11 rounded-2xl px-5',
-                        activeId === id && 'bg-white shadow-md shadow-gray-200 text-primary'
-                    )}
-                    key={index}
-                >
-                    <button>{name}</button>
-                </a>
-            ))}
-        </div>
-    );
+  return (
+    <div className={cn('inline-flex gap-1 bg-gray-50 p-1 rounded-2xl', className)}>
+      {items.map((category) => (
+        <a
+          key={category.id}
+          className={cn(
+            'flex items-center font-bold h-11 rounded-2xl px-5',
+            activeId === category.id && 'bg-white shadow-md shadow-gray-200 text-primary',
+          )}
+          href={`/#${category.name}`}>
+          {category.name}
+        </a>
+      ))}
+    </div>
+  );
 };
