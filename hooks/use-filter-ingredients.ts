@@ -32,15 +32,14 @@ export const useFilterIngredients=(values: string[] = []): ReturnProps =>{
         fetchIngredients();
     },[]);
 
-    const setSelectedIngredients =(ids:string[])=>{
-        ids.forEach(selectedIds.add)
-    }
+    // const setSelectedIngredients =(ids:string[])=>{
+    //     ids.forEach(selectedIds.add)
+    // }
     
     return {
         ingredients, 
         loading, 
         onAddId: toggle, 
         selectedIngredients: selectedIds,
-        setSelectedIngredients
     };
 }
