@@ -29,11 +29,8 @@ export const Filters:React.FC<Props>=({className})=>{
     const searchParams=useSearchParams() as unknown as Map<keyof QueryFilters, string>;
     const router=useRouter();
 
-
     const {ingredients, loading, onAddId, selectedIngredients}=useFilterIngredients(
         searchParams.get('ingredients')?.split(','),
-
-
     );
 
     const [sizes, {toggle:toggleSizes}]=useSet(
@@ -48,7 +45,8 @@ export const Filters:React.FC<Props>=({className})=>{
         priceFrom: searchParams.get('priceFrom') ? Number(searchParams.get('priceFrom')) : undefined,
         priceTo: searchParams.get('priceTo') ? Number(searchParams.get('priceTo')) : undefined
     });
-    const items=ingredients.map((item)=>({value: item.id, text:item.name}));
+
+    const items=ingredients.map((item)=>({value: String(item.id), text:item.name}));
 
     const updatePrice=(name:keyof PriceProps, value:number)=>{
         setPrice({
