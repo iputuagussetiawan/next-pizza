@@ -33,7 +33,7 @@ export const ProductsGroupList: React.FC<Props> = ({
     React.useEffect(() => {
         if (intersection?.isIntersecting) {
             setActiveId(categoryId);
-            console.log(title, categoryId);
+            // console.log(title, categoryId);
         }
     }, [categoryId,title,intersection?.isIntersecting, setActiveId]);
     return (
@@ -43,6 +43,8 @@ export const ProductsGroupList: React.FC<Props> = ({
                 {products.map((product) => {
                     // Safely check if product.items exists and has elements
                     //const price = Number(product.items?.[0]?.price) || 0; // Handle missing price
+
+                    // console.log(product.items);
                     return (
                         <ProductCard
                             key={product.id}
