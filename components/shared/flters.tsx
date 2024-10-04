@@ -1,6 +1,6 @@
 
 "use client"
-import { useFilterIngredients } from "@/hooks/use-filter-ingredients";
+
 import { Input } from "../ui/input";
 import { RangeSlider } from "../ui/range-slider";
 import { CheckboxFiltersGroup } from "./checkbox-filters-group";
@@ -9,6 +9,8 @@ import React from "react";
 import { useSet } from "react-use";
 import * as qs from 'qs'
 import { useRouter, useSearchParams } from "next/navigation";
+import { useFilterIngredients } from "@/hooks/use-filter-ingredients";
+
 
 interface Props{
     className?:string;
