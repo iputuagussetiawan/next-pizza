@@ -1,3 +1,4 @@
+'use client';
 import { Variant } from "@/components/shared/group-variants";
 import { getAvailablePizzaSizes } from "@/lib";
 import { PizzaSize, PizzaType } from "@/shared/constants/pizza";
