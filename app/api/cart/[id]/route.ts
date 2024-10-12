@@ -48,7 +48,6 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
 
 export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
     try {
-
         const id=Number(params.id)
         const cartToken = req.cookies.get('cartToken')?.value;
         // const currentUser = await getUserSession();

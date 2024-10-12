@@ -34,6 +34,7 @@ export const ChoosePizzaForm:React.FC<Props>=({
       type,
       selectedIngredients,
       availableSizes,
+      currentItemId,
       setSize,
       setType,
       addIngredient

@@ -16,7 +16,7 @@ export const updateCartTotalAmount=async(token:string)=>{
                 include:{
                     productItem:{
                         include:{
-                            product:true
+                            product:true,
                         },
                     },
                     ingredients:true,
