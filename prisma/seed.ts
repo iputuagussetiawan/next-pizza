@@ -26,7 +26,7 @@ const generateProductItem = ({
     } as Prisma.ProductItemUncheckedCreateInput; // Type assertion to specify that the return type matches the Prisma input type
 };
 
-const ingredients = [
+export const ingredients = [
     {
         name: 'Cheese Stuffed Crust',
         price: 179,

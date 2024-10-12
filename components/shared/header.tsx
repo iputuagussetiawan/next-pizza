@@ -6,8 +6,7 @@ import { Button } from "../ui";
 import { ArrowRight, ShoppingCart, User } from "lucide-react";
 import Link from "next/link";
 import { SearchInput } from "./search-input";
-
-
+import { CartButton } from "./cart-button";
 interface Props{
   className?:string;
 }
@@ -37,21 +36,10 @@ export const Header: React.FC<Props>=({className})=>{
             <User size={16} />
             Button
           </Button>
-
           <div>
-            <Button className="group relative">
-              <b>$100</b>
-              <span className="h-full w-[1px] bg-white/30 mx-3"/>
-              <div className="flex item-center gap-1 transition duration-500 group-hover:opacity-0">
-                <ShoppingCart size={16} className="relative" strokeWidth={2}/>
-                <b>3</b>
-              </div>
-              <ArrowRight size={16} className="absolute right-5 transition duration-500 -translate-x-2 opacity-0 group-hover:opacity-100 group-hover:-translate-x-0 "/>
-
-            </Button>
+            <CartButton/>
           </div>
         </div>
-
       </Container>
     </header>
   )
