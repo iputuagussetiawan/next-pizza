@@ -1,7 +1,6 @@
 import { Container, Filters, Title, TopBar } from "@/components/shared";
 import { ProductsGroupList } from "@/components/shared/products-group-list";
 import { findPizzas, GetSearchParams } from "@/lib/find-pizza";
-import { prisma } from "@/prisma/prisma-client";
 
 export default async function Home({searchParams}:{searchParams:GetSearchParams}){
   const categories= await findPizzas(searchParams)
