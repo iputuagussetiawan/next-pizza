@@ -1,18 +1,10 @@
 import { Container, Filters, Title, TopBar } from "@/components/shared";
 import { ProductsGroupList } from "@/components/shared/products-group-list";
+import { findPizzas, GetSearchParams } from "@/lib/find-pizza";
 import { prisma } from "@/prisma/prisma-client";
 
-export default async function Home() {
-  const categories= await prisma.category.findMany({
-    include:{
-      products:{
-        include:{
-          ingredients:true,
-          items:true,
-        }
-      }
-    }
-  })
+export default async function Home({searchParams}:{searchParams:GetSearchParams}){
+  const categories= await findPizzas(searchParams)
 
   console.log(categories);
 
@@ -31,19 +23,15 @@ export default async function Home() {
           </div>
           <div className="flex-1">
             <div className="flex flex-col gap-16">
-          
               {
-  categories.map((category) => {
-    return (
-      category.products.length > 0 && (
-        <ProductsGroupList key={category.id} title={category.name} categoryId={category.id} products={category.products}  />
-      )
-    );
-  })
-}
-             
-
-             
+                categories.map((category) => {
+                  return (
+                    category.products.length > 0 && (
+                      <ProductsGroupList key={category.id} title={category.name} categoryId={category.id} products={category.products}  />
+                    )
+                  );
+                })
+              }
             </div>
           </div>
         </div>
