@@ -8,8 +8,8 @@ import { updateCartTotalAmount } from "@/lib/update-cart-total-amounts";
 export async function GET(req: NextRequest){
     try {
         const userId=1;
-        //const token=req.cookies.get('cartToken')?.value;
-        const token="11111"
+        const token=req.cookies.get('cartToken')?.value;
+        //const token="11111"
 
         if(!token){
             return NextResponse.json({totalAmount:0, items:[]});
@@ -18,14 +18,8 @@ export async function GET(req: NextRequest){
         const userCart=await prisma.cart.findFirst({
             where:{
                 OR:[
-                    // { userId: userId },  // Explicitly defining the field and variable
-                    // { tokenId: String(token) }
-                    // {
-                    //     userId
-                    // },
-                    {
-                        token,
-                    }
+                    { userId },  // Explicitly defining the field and variable
+                    {token,}
                 ],
             },
             include:{

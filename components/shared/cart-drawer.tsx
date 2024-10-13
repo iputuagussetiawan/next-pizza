@@ -40,9 +40,9 @@ export const CartDrawer: React.FC<React.PropsWithChildren<Props>> = ({ children,
             <SheetTrigger asChild>{children}</SheetTrigger>
             <SheetContent className="flex flex-col justify-between pb-0 bg-[#f4f1ee]">
                 <SheetHeader>
-                <SheetTitle>
-                    Your Cart :  <span className="font-bold">{items.length} items </span>
-                </SheetTitle>
+                    <SheetTitle>
+                        Your Cart :  <span className="font-bold">{items.length} items </span>
+                    </SheetTitle>
                 </SheetHeader>
 
                 <div className="-mx-6 mt-5 overflow-auto scrollbar flex-1">
@@ -80,13 +80,11 @@ export const CartDrawer: React.FC<React.PropsWithChildren<Props>> = ({ children,
                 <div className="w-full">
                     <div className="flex mb-4">
                         <span className="flex flex-1 text-lg text-neutral-500">
-                            Total {totalAmount}
+                            Total 
                             <span className="flex-1 border-b border-dashed border-b-neutral-200 relative -top-1 mx-2"></span>
                         </span>
+                        <span  className="font-bold">{totalAmount}</span>
                     </div>
-
-                    
-
                     <Link href="/cart">
                     <Button type="submit" className="w-full h-12 text-base">
                         Go To Cart
