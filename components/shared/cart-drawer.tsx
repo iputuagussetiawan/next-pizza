@@ -46,34 +46,34 @@ export const CartDrawer: React.FC<React.PropsWithChildren<Props>> = ({ children,
                 </SheetHeader>
 
                 <div className="-mx-6 mt-5 overflow-auto scrollbar flex-1">
-                <div className="mb-2">
+                
                     {items && items.length > 0 ? (
                     items.map(item => (
-                        <CartDrawerItem
-                            key={item.id}
-                            id={item.id}
-                            imageUrl={item.imageUrl}
-                            details={
-                                item.pizzaSize && item.pizzaType
-                                ? getCartItemDetails(
-                                    item.ingredients,
-                                    item.pizzaType as PizzaType,
-                                    item.pizzaSize as PizzaSize
-                                    )
-                                : ""
-                            }
-                            name={item.name}
-                            price={item.price}
-                            quantity={item.quantity}
-                            onClickCountButton={(type)=>onClickCountButton(item.id, item.quantity, type)}
-                            onClickRemove={()=>removeCartItem(item.id)}
-                        />
+                        <div key={item.id} className="mb-2">
+                            <CartDrawerItem
+                                
+                                id={item.id}
+                                imageUrl={item.imageUrl}
+                                details={
+                                    item.pizzaSize && item.pizzaType
+                                    ? getCartItemDetails(
+                                        item.ingredients,
+                                        item.pizzaType as PizzaType,
+                                        item.pizzaSize as PizzaSize
+                                        )
+                                    : ""
+                                }
+                                name={item.name}
+                                price={item.price}
+                                quantity={item.quantity}
+                                onClickCountButton={(type)=>onClickCountButton(item.id, item.quantity, type)}
+                                onClickRemove={()=>removeCartItem(item.id)}
+                            />
+                        </div>
                     ))
                     ) : (
                     <p>No items in the cart.</p>
                     )}
-
-                </div>
                 </div>
 
                 <SheetFooter className="-mx-6 bg-white p-8">
