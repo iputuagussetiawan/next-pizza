@@ -4,6 +4,7 @@ import crypto from 'crypto';
 import { findOrCreateCart } from "@/lib/find-or-create-cart";
 import { CreateCartItemValues } from "@/services/dto/cart.dto";
 import { updateCartTotalAmount } from "@/lib/update-cart-total-amounts";
+import { ingredients } from "@/prisma/seed";
 
 export async function GET(req: NextRequest){
     try {
@@ -46,8 +47,6 @@ export async function GET(req: NextRequest){
 
 export async function POST(req: NextRequest) {
     try {
-        // const currentUser = await getUserSession();
-        //const userId = Number(currentUser?.id);
         let cartToken = req.cookies.get('cartToken')?.value;
 
         const data = (await req.json()) as CreateCartItemValues;
@@ -80,24 +79,14 @@ export async function POST(req: NextRequest) {
                 cartId: userCart!.id,
                 productItemId: data.productItemId,
                 quantity: 1,
-                // type: data.pizzaType,
-                // pizzaSize: data.pizzaSize,
                 ingredients: { connect: data.ingredients?.map((id) => ({ id })) },
             },
         });
 
         const updatedUserCart=await updateCartTotalAmount(cartToken)
         const resp = NextResponse.json(updatedUserCart);
-        // resp.cookies.set('cartToken', cartToken);
-
         resp.cookies.set('cartToken', cartToken);
         return resp;
-    
-        // const totalAmount = await getCartTotalAmount(userCart.id);
-        // const updatedCart = await updateCartTotalAmount(userCart.id, totalAmount);
-    
-        // const resp = NextResponse.json(updatedCart);
-        // resp.cookies.set('cartToken', cartToken);
     } catch (err) {
         console.log(err);
         return NextResponse.json({ message: '[CART_POST] Server error' }, { status: 500 });
