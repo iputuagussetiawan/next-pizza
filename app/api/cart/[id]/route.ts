@@ -66,19 +66,16 @@ export async function DELETE(req: NextRequest, { params }: { params: { id: strin
         }
         await prisma.cartItem.delete({
             where: {
-                id: cartItem.id,
+                id: id,
             },
         });
-        await updateCartTotalAmount(userId, cartToken);
+        await updateCartTotalAmount(cartToken);
     
         const userCart = await prisma.cart.findFirst({
             where: {
                 OR: [
                     {
-                        userId,
-                    },
-                    {
-                        tokenId: cartToken,
+                        token: cartToken,
                     },
                 ],
             },
