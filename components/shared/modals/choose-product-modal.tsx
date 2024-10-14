@@ -33,7 +33,10 @@ export const ChooseProductModal: React.FC<Props> = ({ product, className }) => {
                 ingredients,
             })
             toast.success(product.name+' Added To Cart')
+
+            
             router.back()
+            
         } catch (error) {
             toast.error('Something went wrong')
             console.log(error)
