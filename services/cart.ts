@@ -1,5 +1,5 @@
 import { axiosInstance } from './instance';
-import { CartDTO, CartResponse } from './dto/cart.dto';
+import { CartDTO, CartResponse, CreateCartItemValues } from './dto/cart.dto';
 import { Cart } from '@prisma/client';
 
 
@@ -9,10 +9,9 @@ export const fetchCart = async (): Promise<CartDTO> => {
     return(await axiosInstance.get<CartDTO>('/cart')).data;
 };
 
-// export const addCartItem = async (values: CreateCartItemValues): Promise<CartResponse> => {
-//     const { data } = await axiosInstance.post<CartResponse>('/cart', values);
-//     return data;
-// };
+export const addCartItem = async (values: CreateCartItemValues): Promise<CartDTO> => {
+    return (await axiosInstance.post<CartDTO>('/cart', values)).data;
+};
 
 export const updateItemQuantity = async (itemId: number, quantity: number): Promise<CartDTO> => {
     return (await axiosInstance.patch<CartDTO>('/cart/' + itemId, { quantity })).data

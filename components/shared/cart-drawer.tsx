@@ -19,95 +19,72 @@ interface Props {
 
 export const CartDrawer: React.FC<React.PropsWithChildren<Props>> = ({ children, className }) => {
     //const { items, totalAmount,loading } = useCart(true);
-    
 
-    const bears = useStore((state) => state.bears)
+    const totalAmount=useCartStore(state => state.totalAmount);
+    const items=useCartStore(state => state.items);
+    const fetchCartItems = useCartStore(state => state.fetchCartItems);
+    const updateItemQuantity=useCartStore(state => state.updateItemQuantity);
+    const removeCartItem=useCartStore(state => state.removeCartItem);
 
-    const increasePopulation = useStore((state) => state.increasePopulation)
-  // Destructuring state and actions from useCartStore
-    // const [totalAmount ] = useCartStore(state => [
-    //     state.totalAmount,
-    //     state.fetchCartItems,
-    //     state.items
-    // ]);
+    React.useEffect(() => {
+        fetchCartItems();
+    }, []);
 
-    // console.log(items)
-
-  // Fetch cart items on component mount
-    // React.useEffect(() => {
-    //     fetchCartItems(); // Ensure this function properly updates cart state
-    // }, []);
-
-    // const onClickCountButton=(id:number,quantity:number, type:'plus' | 'minus')=>{
-    //     const newQuantity=type==='plus'?quantity+1 : quantity-1;
-    //     updateItemQuantity(id,newQuantity);
-    // }
+    const onClickCountButton=(id: number, quantity: number, type: 'plus' | 'minus')=>{
+        const newQuantity = type === 'plus' ? quantity + 1 : quantity - 1;
+        updateItemQuantity(id, newQuantity);
+    }
 
     return (
         <Sheet>
             <SheetTrigger asChild>{children}</SheetTrigger>
             <SheetContent className="flex flex-col justify-between pb-0 bg-[#f4f1ee]">
                 <SheetHeader>
-                <SheetTitle>
-                    Test Sidebar <span className="font-bold">Tests</span>
-                </SheetTitle>
+                    <SheetTitle>
+                        Your Cart :  <span className="font-bold">{items.length} items </span>
+                    </SheetTitle>
                 </SheetHeader>
 
                 <div className="-mx-6 mt-5 overflow-auto scrollbar flex-1">
-                <div className="mb-2">
-                    {/* {items && items.length > 0 ? (
+                
+                    {items && items.length > 0 ? (
                     items.map(item => (
-                        <CartDrawerItem
-                        key={item.id}
-                        id={item.id}
-                        imageUrl={item.imageUrl}
-                        details={
-                            item.pizzaSize && item.pizzaType
-                            ? getCartItemDetails(
-                                item.ingredients,
-                                item.pizzaType as PizzaType,
-                                item.pizzaSize as PizzaSize
-                                )
-                            : ""
-                        }
-                        name={item.name}
-                        price={item.price}
-                        quantity={item.quantity}
-                        onClickCountButton={(type)=>onClickCountButton(item.id, item.quantity, type)}
-                        onClickRemove={()=>removeCartItem(item.id)}
-                        />
+                        <div key={item.id} className="mb-2">
+                            <CartDrawerItem
+                                
+                                id={item.id}
+                                imageUrl={item.imageUrl}
+                                details={
+                                    item.pizzaSize && item.pizzaType
+                                    ? getCartItemDetails(
+                                        item.ingredients,
+                                        item.pizzaType as PizzaType,
+                                        item.pizzaSize as PizzaSize
+                                        )
+                                    : ""
+                                }
+                                name={item.name}
+                                price={item.price}
+                                quantity={item.quantity}
+                                onClickCountButton={(type)=>onClickCountButton(item.id, item.quantity, type)}
+                                onClickRemove={()=>removeCartItem(item.id)}
+                            />
+                        </div>
                     ))
                     ) : (
                     <p>No items in the cart.</p>
-                    )} */}
-
-
-                    <CartDrawerItem
-                        key={1}
-                        id={1}
-                        imageUrl={''}
-                        details={''}
-                        name={'Test 1'}
-                        price={500}
-                        quantity={1}
-                        onClickCountButton={(type)=>onClickCountButton(1, 1, type)}
-                        // onClickRemove={}
-                        />
-                </div>
+                    )}
                 </div>
 
                 <SheetFooter className="-mx-6 bg-white p-8">
                 <div className="w-full">
                     <div className="flex mb-4">
-                    <span className="flex flex-1 text-lg text-neutral-500">
-                        Total
-                        <span className="flex-1 border-b border-dashed border-b-neutral-200 relative -top-1 mx-2"></span>
-                    </span>
-                    <span className="font-bold text-lg">${bears}</span>
+                        <span className="flex flex-1 text-lg text-neutral-500">
+                            Total 
+                            <span className="flex-1 border-b border-dashed border-b-neutral-200 relative -top-1 mx-2"></span>
+                        </span>
+                        <span  className="font-bold">{totalAmount}</span>
                     </div>
-
-                    <button onClick={increasePopulation}>one up</button>
-
                     <Link href="/cart">
                     <Button type="submit" className="w-full h-12 text-base">
                         Go To Cart
