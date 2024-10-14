@@ -7,20 +7,15 @@ import { cn } from "@/lib/utils";
 interface Props {
     imageUrl: string;
     name: string;
+    onSubmit?:VoidFunction;
+    price:number;
     className?: string;
-    // onClickAdd?: VoidFunction;
+    loading?:boolean;
 }
 
-export const ChooseProductForm:React.FC<Props>=({
-name,
-  imageUrl,
-  // onClickAdd,
-  className,
-})=>{
-    //const textDetails='Lorem Ipsum ';
-    const totalPrice=350;
-    return(
-      
+export const ChooseProductForm:React.FC<Props>=({name,imageUrl,onSubmit,price,className,loading})=>{
+  
+  return(
     <div className={cn(className,'flex flex-1')}>
       <div className="flex items-center justify-center flex-1 relative w-full">
         <img
@@ -33,10 +28,11 @@ name,
         <Title text={name} size="md" className="font-extrabold mb-1" />
 
         <Button
-          // loading={loading}
+          loading={loading}
           // onClick={handleClickAdd}
+          onClick={()=>onSubmit?.()}
           className="h-[55px] px-10 text-base rounded-[18px] w-full mt-5">
-            Buy {totalPrice} ₽
+            Buy {price} ₽
         </Button>
       </div>
     </div>

@@ -48,7 +48,6 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
 
 export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
     try {
-
         const id=Number(params.id)
         const cartToken = req.cookies.get('cartToken')?.value;
         // const currentUser = await getUserSession();
@@ -67,19 +66,16 @@ export async function DELETE(req: NextRequest, { params }: { params: { id: strin
         }
         await prisma.cartItem.delete({
             where: {
-                id: cartItem.id,
+                id: id,
             },
         });
-        await updateCartTotalAmount(userId, cartToken);
+        await updateCartTotalAmount(cartToken);
     
         const userCart = await prisma.cart.findFirst({
             where: {
                 OR: [
                     {
-                        userId,
-                    },
-                    {
-                        tokenId: cartToken,
+                        token: cartToken,
                     },
                 ],
             },
