@@ -18,7 +18,6 @@ export const ProductForm:React.FC<Props>=({product,onSubmit:_onSubmit})=>{
     const addCartItem=useCartStore(state=>state.addCartItem);
     const loading=useCartStore(state=>state.loading);
     
-
     const onSubmit=async(productItemId?:number, ingredients?:number[])=>{
         try {
             const itemId=productItemId || firstItem.id
@@ -27,10 +26,8 @@ export const ProductForm:React.FC<Props>=({product,onSubmit:_onSubmit})=>{
                 ingredients,
             })
             toast.success(product.name+' Added To Cart')
-
-            
-            router.back()
-            
+            // router.back();
+            _onSubmit?.()
         } catch (error) {
             toast.error('Something went wrong')
             console.log(error)

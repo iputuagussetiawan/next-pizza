@@ -5,10 +5,6 @@ import { prisma } from "@/prisma/prisma-client";
 
 export default async function Home({searchParams}:{searchParams:GetSearchParams}){
   const categories= await findPizzas(searchParams)
-
-  console.log(categories);
-
-
   return (
     <>
       <Container className="mt-5">
