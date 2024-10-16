@@ -7,32 +7,17 @@ import Link from "next/link";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { CartDrawerItem } from "./cart-drawer-item";
 import { getCartItemDetails } from "@/lib";
-import { useCartStore } from "@/store/cart";
 import { PizzaSize, PizzaType } from "@/shared/constants/pizza";
-import { useStore } from "@/store/bear";
 import { useCart } from "@/hooks/use-cart";
 import Image from "next/image";
 import { Title } from "./title";
 import { cn } from "@/lib/utils";
 
-interface Props {
-    className?: string;
-}
 
 
-export const CartDrawer: React.FC<React.PropsWithChildren<Props>> = ({ children, className }) => {
-    //const { items, totalAmount,loading } = useCart(true);
-
-    const totalAmount=useCartStore(state => state.totalAmount);
-    const items=useCartStore(state => state.items);
-    const fetchCartItems = useCartStore(state => state.fetchCartItems);
-    const updateItemQuantity=useCartStore(state => state.updateItemQuantity);
-    const removeCartItem=useCartStore(state => state.removeCartItem);
-
-    React.useEffect(() => {
-        fetchCartItems();
-    }, []);
-
+export const CartDrawer: React.FC<React.PropsWithChildren> = ({ children }) => {
+    const { totalAmount, updateItemQuantity, items ,removeCartItem } = useCart(true);
+    const [redirecting, setRedirecting] = React.useState(false);
     const onClickCountButton=(id: number, quantity: number, type: 'plus' | 'minus')=>{
         const newQuantity = type === 'plus' ? quantity + 1 : quantity - 1;
         updateItemQuantity(id, newQuantity);
@@ -83,13 +68,11 @@ export const CartDrawer: React.FC<React.PropsWithChildren<Props>> = ({ children,
                                                 id={item.id}
                                                 imageUrl={item.imageUrl}
                                                 details={
-                                                    item.pizzaSize && item.pizzaType
-                                                    ? getCartItemDetails(
+                                                    getCartItemDetails(
                                                         item.ingredients,
-                                                        item.pizzaType as PizzaType,
-                                                        item.pizzaSize as PizzaSize
-                                                        )
-                                                    : ""
+                                                        item.pizzaType as PizzaType,        
+                                                        item.pizzaSize as PizzaSize,
+                                                    )
                                                 }
                                                 name={item.name}
                                                 price={item.price}
@@ -113,11 +96,15 @@ export const CartDrawer: React.FC<React.PropsWithChildren<Props>> = ({ children,
                                             </span>
                                             <span  className="font-bold">{totalAmount}</span>
                                         </div>
-                                        <Link href="/cart">
-                                        <Button type="submit" className="w-full h-12 text-base">
-                                            Go To Cart
-                                            <ArrowRight className="w-5 ml-2" />
-                                        </Button>
+                                        <Link href="/checkout">
+                                            <Button
+                                                onClick={() => setRedirecting(true)} 
+                                                loading={redirecting}
+                                                type="submit" 
+                                                className="w-full h-12 text-base">
+                                                Go To Cart
+                                                <ArrowRight className="w-5 ml-2" />
+                                            </Button>
                                         </Link>
                                     </div>
                                 </SheetFooter>

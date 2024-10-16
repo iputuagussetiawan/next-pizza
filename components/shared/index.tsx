@@ -14,4 +14,9 @@ export {IngredientItem} from './ingredient-item';
 export {CartButton} from './cart-button';
 export {CartDrawer} from './cart-drawer';
 export {ProductForm} from './product-form';
+export {WhiteBlock} from './white-block';
+export {CheckoutItemDetails} from './checkout-item-details';
+export {CheckoutItem}from './checkout-item';
+export {CheckoutItemSkeleton}from './checkout-item-skeleton';
+export {CheckoutSidebar}from './checkout-sidebar';
 export * from './modals'

@@ -19,7 +19,7 @@ export async function GET(req: NextRequest){
         const userCart=await prisma.cart.findFirst({
             where:{
                 OR:[
-                    { userId },  // Explicitly defining the field and variable
+                   // { userId },  // Explicitly defining the field and variable
                     {token,}
                 ],
             },
