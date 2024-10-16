@@ -67,5 +67,5 @@ export const useFilters = ():ReturnProps =>{
         setPizzaTypes:togglePizzaTypes,
         setSizes:toggleSizes,
         setSelectedIngredients:toggleIngredients,
-    }),[sizes,pizzaTypes,selectedIngredients,prices  ]);
+    }),[sizes,pizzaTypes,selectedIngredients,prices, toggleIngredients, togglePizzaTypes, toggleSizes]);
 };

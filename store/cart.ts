@@ -5,6 +5,7 @@ import { CreateCartItemValues } from '@/services/dto/cart.dto';
 
 
 export type CartStateItem = {
+    disabled: boolean | undefined;
     pizzaType?: number | null | undefined;
     id: number;
     quantity: number;
@@ -47,14 +48,21 @@ export const useCartStore = create<CartState>((set) => ({
     },
     removeCartItem: async (id: number) => {
         try {
-            set({ loading: true, error: false });
+            set(state=>({
+                loading:true,
+                error:false,
+                items:state.items.map(item=>item.id===id?{...item,disable:true}:item)
+            }));
             const data = await Api.cart.removeCartItem(id);
             set(getCartDetails(data));
         } catch (error) {
             set({ error: true });
             console.error(error);
         } finally {
-            set({ loading: false });
+            set(state=>({
+                loading:false,
+                items:state.items.map(item=>({...item,disable:false})),
+            }));
         }
     },
     updateItemQuantity: async (id: number, quantity: number) => {

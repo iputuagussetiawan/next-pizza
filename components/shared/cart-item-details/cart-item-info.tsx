@@ -1,17 +1,19 @@
 // import { mapPizzaType, PizzaSize, PizzaType } from "@/shared/constants/pizza";
 // import { Ingredient } from "@prisma/client";
 
+import { cn } from "@/lib/utils";
 import React from "react";
 
 interface Props {
   name: string;
   details:string;
+  className?: string;
   // pizzaSize?: PizzaSize;
   // type?: PizzaType;
   // ingredients?: Ingredient[];
 }
 
-export const CartItemInfo: React.FC<Props> = ({ name, details }) => {
+export const CartItemInfo: React.FC<Props> = ({ name, details,className }) => {
   // const details = [];
 
   // if (pizzaSize && type) {
@@ -25,13 +27,13 @@ export const CartItemInfo: React.FC<Props> = ({ name, details }) => {
 
   return (
     <div>
-      <div className="flex items-center justify-between">
+      <div className={cn("flex items-center justify-between", className)}>
         <h2 className="text-lg font-bold flex-1 leading-6">{name}</h2>
       </div>
 
       {
         details && 
-        <p className="text-xs text-gray-400">{details}</p>
+        <p className="text-xs text-gray-400 w-[90%]">{details}</p>
       }
       
     </div>
