@@ -70,12 +70,30 @@ export async function createOrder(data: CheckoutFormValues){
                 cartId:userCart.id
             }
         })
+
+    //TODO - Payment Gateway
+
+    //end of payment gateway
+
+    await prisma.order.update({
+        where:{
+            id:order.id
+        },
+        data:{
+            paymentId:'123' //Get From Payment Gateway ID Transaction
+        }
+    })
+
+    //const confirmUrl=paymentData.confirmation.confirmation_url; // get from payment gateway
+
     
     await sendEmail(data.email, 'Next Pizza - Order Confirmation #' +order.id, PayOrderTemplate({
         orderId: order.id,
         totalAmount: order.totalAmount,
-        paymentUrl: 'https://google.com'
+        paymentUrl: 'https://google.com'  // change from payment gateway url
     }));
+
+    //return confirmUrl;
     
     } catch (error) {
         console.log(error);
