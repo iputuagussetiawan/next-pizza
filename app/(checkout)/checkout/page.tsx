@@ -1,73 +1,73 @@
 'use client'
-import { CheckoutItem, CheckoutSidebar, Container, Title, WhiteBlock } from "@/components/shared";
-import { Input, Textarea } from "@/components/ui";
+import { CheckoutAddressForm, CheckoutCart, CheckoutItem, CheckoutPersonalForm, CheckoutSidebar, Container, Title, WhiteBlock } from "@/components/shared";
 import { useCart } from "@/hooks";
-import { getCartItemDetails } from "@/lib";
-import { PizzaSize, PizzaType } from "@/shared/constants/pizza";
+import { useForm, FormProvider } from "react-hook-form";
+import{zodResolver} from '@hookform/resolvers/zod'
+import { checkoutFormSchema, CheckoutFormValues } from "@/shared/constants/checkout-form-schema";
+import { cn } from "@/lib/utils";
+import { createOrder } from "@/app/actions";
+import toast from "react-hot-toast";
+import React from "react";
 
 export default function CheckoutPage() {
-    const { totalAmount, updateItemQuantity, items ,removeCartItem } = useCart(true);
+    const [submitting, setSubmitting] = React.useState(false);
+    const { totalAmount, updateItemQuantity, items ,removeCartItem, loading } = useCart(true);
+
+    const form=useForm<CheckoutFormValues>({
+        resolver: zodResolver(checkoutFormSchema),
+        defaultValues:{
+            email:'',
+            firstName:'',
+            lastName:'',
+            phone:'',
+            address:'',
+            comment:'',
+            
+        }
+    });
     const onClickCountButton=(id: number, quantity: number, type: 'plus' | 'minus')=>{
         const newQuantity = type === 'plus' ? quantity + 1 : quantity - 1;
         updateItemQuantity(id, newQuantity);
     }
 
+    const onSubmit=async(data: CheckoutFormValues)=>{
+        try {
+            setSubmitting(true);
+            const url=await createOrder(data);
+            toast.success("Successfully created an order",{icon:"👍"}) ;
+            if(url){
+                location.href=url;
+            }
+        } catch (error) {
+            console.log(error);
+            setSubmitting(false);
+            toast.error('Something went wrong',{icon:"😢"})
+        }
+    }
+
 
     return <Container className="mt-10">
         <Title text="Placing an order" className="font-extrabold mb-8 text-[36px]"></Title>
-        <div className="flex gap-10">
-            <div className="flex flex-col gap-10 flex-1 mb-20">
-                <WhiteBlock title="1. Basket">
-                    <div className="flex flex-col gap-5">
-                        {
-                            items.map((item)=>(
-                                <CheckoutItem 
-                                    key={item.id}
-                                    id={item.id} 
-                                    imageUrl={item.imageUrl} 
-                                    details={
-                                        getCartItemDetails(
-                                            item.ingredients,
-                                            item.pizzaType as PizzaType,        
-                                            item.pizzaSize as PizzaSize,
-                                        )
-                                    }
-                                    disabled={item.disabled}
-                                    name={item.name} 
-                                    price={item.price}
-                                    quantity={item.quantity}
-                                    onClickCountButton={(type)=>onClickCountButton(item.id, item.quantity, type)}
-                                    onClickRemove={()=>removeCartItem(item.id)}
-                                />
-                            ))
-                        }
-                        
-                    </div>
-                </WhiteBlock>
-
-                <WhiteBlock title="2. Personal information">
-                    <div className="grid grid-cols-2 gap-5">
-                        <Input name="firstName" className="text-base" placeholder="First Name"/>
-                        <Input name="lastName" className="text-base" placeholder="Last Name"/>
-                        <Input name="email" className="text-base" placeholder="Email"/>
-                        <Input name="phone" className="text-base" placeholder="Phone"/>
-                    </div>
-                </WhiteBlock>
-
-                <WhiteBlock title="3. Delivery address">
-                    <div className="flex flex-col gap-5">
-                        <Input name="address" className="text-base" placeholder="Enter address"/>
-                        <Textarea
-                            className="text-base"
-                            rows={5}
-                            placeholder="Please provide additional information for the courier here."
+        <FormProvider {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)}>
+                <div className="flex gap-10">
+                    <div className="flex flex-col gap-10 flex-1 mb-20">
+                        <CheckoutCart 
+                            onClickCountButton={onClickCountButton} 
+                            removeCartItem={removeCartItem} 
+                            items={items}
+                            loading={loading}
                         />
+                        <CheckoutPersonalForm className={loading ? 'opacity-40 pointer-events-none':''}/>
+                        <CheckoutAddressForm className={loading ? 'opacity-40 pointer-events-none':''}/>
                     </div>
-                </WhiteBlock>
-            </div>
-            <div className="w-[450px]">
-                <CheckoutSidebar totalAmount={totalAmount}/>
-            </div>
-        </div>
+                    <div className="w-[450px]">
+                        <CheckoutSidebar totalAmount={totalAmount} loading={loading || submitting} />
+                    </div>
+                </div>
+            </form>
+        </FormProvider>
     </Container>;
 }
+
+
