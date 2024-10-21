@@ -1,6 +1,8 @@
 // import { CartResponse } from '@/services/dto/cart';
-import {CartDTO } from '@/services/dto/cart.dto';
+import {CartDTO, CartResponse } from '@/services/dto/cart.dto';
 import { calcCartItemTotal } from './calc-cart-item-total-price';
+import { calcCartItemTotalAmount } from './calc-cart-item-total-amount';
+import { ICartItem } from '@/store/cart';
 
 export type CartStateItem = {
     disabled: boolean | undefined;
@@ -16,27 +18,24 @@ export type CartStateItem = {
 };
 
 interface ReturnProps {
-    items: CartStateItem[];
+    items: ICartItem[];
     totalAmount: number;
 };
 
-export const getCartDetails = (data: CartDTO): ReturnProps => {
-    const items = data.items.map((item:any) => ({
+
+export const getCartDetails = (data: CartResponse): ReturnProps => {
+    const items = data.items.map((item) => ({
         id: item.id,
         quantity: item.quantity,
         name: item.productItem.product.name,
         imageUrl: item.productItem.product.imageUrl,
-        disabled:false,
-        price: calcCartItemTotal(item),
-        pizzaSize: item.productItem.price,
-        pizzaType: item.productItem.pizzaType,
-        ingredients: item.ingredients.map((ingredient: { name: any; price: any; }) => ({
+        price: calcCartItemTotalAmount(item),
+        pizzaSize: item.pizzaSize,
+        type: item.type,
+        ingredients: item.ingredients.map((ingredient) => ({
             name: ingredient.name,
             price: ingredient.price,
         })),
-    })) as CartStateItem[];
-    return { 
-        items, 
-        totalAmount: data.totalAmount || 0 
-    };
+    }));
+    return { items, totalAmount: data.totalAmount || 0 };
 };
