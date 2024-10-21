@@ -3,6 +3,18 @@ import { Api } from "@/services/api-client";
 import { getCartDetails } from '@/lib';
 import { CreateCartItemValues } from '@/services/dto/cart.dto';
 
+export type ICartItem = {
+    disabled: boolean | undefined;
+    id: number;
+    quantity: number;
+    name: string;
+    imageUrl: string;
+    price: number;
+    pizzaSize?: number | null;
+    type?: number | null;
+    ingredients: Array<{ name: string; price: number }>;
+  };
+  
 
 export type CartStateItem = {
     disabled: boolean | undefined;
