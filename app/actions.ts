@@ -128,14 +128,14 @@ export async function createOrder(data: CheckoutFormValues){
 
     //const confirmUrl=paymentData.confirmation.confirmation_url; // get from payment gateway
 
-    
+    let confirmUrl='https://google.com'
     await sendEmail(data.email, 'Next Pizza - Order Confirmation #' +order.id, PayOrderTemplate({
         orderId: order.id,
         totalAmount: order.totalAmount,
         paymentUrl: 'https://google.com'  // change from payment gateway url
     }));
 
-    //return confirmUrl;
+    return confirmUrl;
     
     } catch (error) {
         console.log(error);

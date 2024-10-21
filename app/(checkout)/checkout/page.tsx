@@ -33,15 +33,15 @@ export default function CheckoutPage() {
     React.useEffect(()=>{
         async function fetchUserInfo(){
             const data=await Api.auth.getMe()
-            const [fisrtName,lastName]=data.fullName.split(' ');
-            form.setValue('firstName',fisrtName);
+            const [firstName,lastName]=data.fullName.split(' ');
+            form.setValue('firstName',firstName);
             form.setValue('lastName',lastName);
             form.setValue('email',data.email);
         }
         if(session){
             fetchUserInfo();
         }
-    },[session])
+    },[session,form])
     const onClickCountButton=(id: number, quantity: number, type: 'plus' | 'minus')=>{
         const newQuantity = type === 'plus' ? quantity + 1 : quantity - 1;
         updateItemQuantity(id, newQuantity);

@@ -52,10 +52,10 @@ export const useChoosePizza = (items?: IProduct['items']) => {
           ingredientsIds: Array.from(selectedIngredientsIds),
           quantity: 1,
         });
-        toast.success('Товар добавлен в корзину');
+        toast.success('Product added to cart');
       } catch (error) {
         console.error(error);
-        toast.error('Произошла ошибка при добавлении в корзину');
+        toast.error('An error occurred while adding to cart');
       }
     }
   };

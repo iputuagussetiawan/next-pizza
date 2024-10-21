@@ -63,7 +63,7 @@ export async function POST(req: NextRequest) {
                 ingredients: {
                     every:{
                         id:{
-                            in:data.ingredients
+                            in:data.ingredientsIds
                         }
                     }, 
                     some:{}
@@ -90,12 +90,10 @@ export async function POST(req: NextRequest) {
                     cartId: userCart!.id,
                     productItemId: data.productItemId,
                     quantity: 1,
-                    ingredients: { connect: data.ingredients?.map((id) => ({ id })) },
+                    ingredients: { connect: data.ingredientsIds?.map((id) => ({ id })) },
                 },
             });
         }
-    
-
         const updatedUserCart=await updateCartTotalAmount(cartToken)
         const resp = NextResponse.json(updatedUserCart);
         resp.cookies.set('cartToken', cartToken);
