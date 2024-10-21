@@ -1,4 +1,4 @@
-import { Container, Filters, Title, TopBar } from "@/components/shared";
+import { Container, Filters, Stories, Title, TopBar } from "@/components/shared";
 import { ProductsGroupList } from "@/components/shared/products-group-list";
 import { findPizzas, GetSearchParams } from "@/lib/find-pizza";
 
@@ -10,6 +10,8 @@ export default async function Home({searchParams}:{searchParams:GetSearchParams}
         <Title text="Yummy Pizza" size="lg" className="font-extrabold"/>
       </Container>
       <TopBar categories={categories.filter((category)=>category.products.length>0)}/>
+
+      <Stories/>
 
       <Container className="mt-10 pb-14">
         <div className="flex gap-[80px]">

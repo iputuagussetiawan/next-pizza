@@ -1,4 +1,4 @@
-import React from "react";
+import React, { use } from "react";
 import { Input } from "@/components/ui";
 import { FormInput } from "../form";
 import { WhiteBlock } from "../white-block";
@@ -7,6 +7,7 @@ interface Props{
     className?:string;
 }
 export const CheckoutPersonalForm:React.FC<Props>=({className})=>{
+ 
     return(
     <WhiteBlock title="2. Personal information" className={className}>
         <div className="grid grid-cols-2 gap-5">

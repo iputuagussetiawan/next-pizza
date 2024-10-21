@@ -3,13 +3,13 @@ import { cn } from "@/lib/utils";
 import React from "react";
 import { Container } from "./container";
 import Image from "next/image";
-import { Button } from "../ui";
-import { ArrowRight, ShoppingCart, User } from "lucide-react";
 import Link from "next/link";
 import { SearchInput } from "./search-input";
 import { CartButton } from "./cart-button";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import toast from "react-hot-toast";
+import { ProfileButton } from "./profile-button";
+import { AuthModal } from "./modals";
 interface Props{
   hasSearch?:boolean;
   hasCart?:boolean;
@@ -17,13 +17,28 @@ interface Props{
 }
 
 export const Header: React.FC<Props>=({className,hasSearch=true, hasCart=true})=>{
+  const [openAuthModal, setOpenAuthModal] = React.useState(false);
   const searchParams=useSearchParams();
+  const router=useRouter();
+ 
+
   React.useEffect(()=>{
+    let toastMessage='';
+
     if(searchParams.has('paid')){
+      toastMessage='Payment Successful'
+    }
+  
+    if(searchParams.has('verified')){
+      toastMessage='Verify Successful'
+    }
+    if(toastMessage){
+      router.replace('/');
       setTimeout(()=>{   
-        toast.success('Payment Successful');
+        toast.success(toastMessage);
       },500)
     }
+   
   },[]); 
   return(
     <header className={cn('border-b',className)}>
@@ -49,14 +64,12 @@ export const Header: React.FC<Props>=({className,hasSearch=true, hasCart=true})=
         }
         
         <div className="flex item-center gap-3">
-          <Button variant="outline" className="flex items-center gap-1">
-            <User size={16} />
-            Button
-          </Button>
+          <AuthModal open={openAuthModal} onClose={() => setOpenAuthModal(false)}/>
+          <ProfileButton onClickSignIn={() => setOpenAuthModal(true)}/>
           {hasSearch && 
-          <div>
-            <CartButton/>
-          </div>
+            <div>
+              <CartButton/>
+            </div>
           }
         </div>
       </Container>
