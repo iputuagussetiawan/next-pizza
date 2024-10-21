@@ -22,7 +22,10 @@ export {CheckoutSidebar}from './checkout-sidebar';
 export {RequiredSymbol}from './required-symbol';
 export {ErrorText}from './error-text';
 export {ProfileButton}from './profile-button';
+export {InfoBlock}from './info-block';
+export {ProfileForm}from './profile-form';
+export {Stories}from './stories';
 export * from './form';
 export * from './modals'
 export * from './checkout'
-// export * from './email-templates';
+export * from './email-templates';
